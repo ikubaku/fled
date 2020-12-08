@@ -20,7 +20,7 @@ enum BlockType {
 }
 
 #[derive(PartialEq, Debug)]
-struct BlockHeader {
+pub struct BlockHeader {
     is_last_block: bool,
     block_type: BlockType,
     length: u32,
@@ -61,7 +61,7 @@ fn parse_block_length<'a, E>(input: (&'a [u8], usize)) -> IResult<(&'a [u8], usi
     map(bits_24, |bs: (u8, u8, u8)| bs.0 as u32 * 0x10000 + bs.1 as u32 * 0x100 + bs.2 as u32)(input)
 }
 
-fn parse_metadata_block_header<'a, E>(input: (&'a [u8], usize)) -> IResult<(&'a [u8], usize), BlockHeader, E>
+pub fn parse_metadata_block_header<'a, E>(input: (&'a [u8], usize)) -> IResult<(&'a [u8], usize), BlockHeader, E>
     where E: ParseError<(&'a [u8], usize)>
 {
     let last_metadata_block_flag = parse_last_metadata_block_flag;
